@@ -20,6 +20,8 @@ MISP:
   bypass_proxy: False #Set to True to bypass proxies access to misp
   ssl: True  #Set to False to deactivate certificate verification
   CA_BUNDLE: "path/to/misp/certificates"
+  tags:
+    - "origin: sftp2misp"
 
 MISC:
   local_directory: "./json_misp"

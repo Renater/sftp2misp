@@ -209,7 +209,7 @@ def get_events(
     logger.info(f"{new_file_number-old_file_number} events downloaded")
 
 
-def upload_events(misp, local_dir, logger):
+def upload_events(misp, local_dir, tags, logger):
     """
     For each event in the local_dir directory, instantiate a new MISPEvent
     object, and try pushing it to MISP.
@@ -245,6 +245,9 @@ def upload_events(misp, local_dir, logger):
                     _event_not_updated += 1
                     logger.info(f"Event {file} already existing and not updated")
             else:
+                if tags:
+                    for tag in tags:
+                        event.add_tag(tag)
                 try:
                     rep = misp.add_event(event, pythonify=False)
                     if "errors" in rep:
@@ -318,7 +321,7 @@ def main():
                 misc_c["local_directory"],
                 logger,
             )
-    upload_events(misp, misc_c["local_directory"], logger)
+    upload_events(misp, misc_c["local_directory"], misp_c["tags"], logger)
 
 
 if __name__ == "__main__":

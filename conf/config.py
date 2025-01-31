@@ -29,6 +29,7 @@ def check_config(config):
         "bypass_proxy": bool,
         "ssl": bool,
         "CA_BUNDLE": str,
+        "tags": list,
     }
     misc_entries = {
         "local_directory": str,
