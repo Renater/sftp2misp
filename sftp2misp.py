@@ -238,7 +238,7 @@ def upload_events(misp, local_dir, tags, logger):
 
             if tags:
                 for tag in tags:
-                    event.add_tag(tag)
+                    event.add_tag(name=tag, local=True)
 
             if event_already_exist(misp, event):
                 if not event_not_updated(misp, event, logger):
