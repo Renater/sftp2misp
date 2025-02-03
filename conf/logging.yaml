@@ -19,7 +19,7 @@ LOGGING:
       backupCount: 20
       encoding: utf8
   loggers:
-    sampleLogger:
+    sftp2misp:
       level: INFO
       handlers:
         - file
