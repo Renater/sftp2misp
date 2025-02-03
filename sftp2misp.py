@@ -8,7 +8,7 @@ import logging
 import warnings
 import json
 from pathlib import Path
-from pymisp import ExpandedPyMISP, MISPEvent
+from pymisp import PyMISP, MISPEvent
 import pymisp.exceptions
 from conf import config
 
@@ -37,18 +37,18 @@ def init(args):
 def misp_init(misp_c, logger):
     """
     Initialize the connection to MISP instance, instantiating an
-    ExpandedPyMISP object using the config.
+    PyMISP object using the config.
     """
     config.set_ssl(misp_c)
     try:
         if misp_c["bypass_proxy"]:
-            return ExpandedPyMISP(
+            return PyMISP(
                 misp_c["url"],
                 misp_c["key"],
                 misp_c["ssl"],
                 proxies={"http": None, "https": None},
             )
-        return ExpandedPyMISP(misp_c["url"], misp_c["key"], misp_c["ssl"])
+        return PyMISP(misp_c["url"], misp_c["key"], misp_c["ssl"])
     except pymisp.exceptions.PyMISPError as err:
         logger.error(err)
         sys.exit(1)
