@@ -93,7 +93,7 @@ def create_logger(config_log):
                 print("Unexpected error: ", sys.exc_info()[0])
                 raise
             logging.config.dictConfig(log_conf["LOGGING"])
-            logger = logging.getLogger("__name__")
+            logger = logging.getLogger("sftp2misp")
             logger.info("Configuration file loading completed")
             logging.captureWarnings(True)
             return logger
