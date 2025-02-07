@@ -239,8 +239,13 @@ def upload_events(misp, local_dir, logger):
             if event_already_exist(misp, event):
                 if not event_not_updated(misp, event, logger):
                     rep = misp.update_event(event, pythonify=False)
-                    logger.info(f"Event {file} updated")
-                    _event_updated += 1
+                    if "errors" in rep:
+                        logger.warning(f"Error on event: {file}")
+                        logger.warning(rep)
+                        _event_error += 1
+                    else:
+                        logger.info(f"Event {file} updated")
+                        _event_updated += 1
                 else:
                     _event_not_updated += 1
                     logger.info(f"Event {file} already existing and not updated")
