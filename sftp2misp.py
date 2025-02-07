@@ -209,7 +209,7 @@ def get_events(
     logger.info(f"{new_file_number-old_file_number} events downloaded")
 
 
-def upload_events(misp, local_dir, logger):
+def upload_events(misp, local_dir, tags, logger):
     """
     For each event in the local_dir directory, instantiate a new MISPEvent
     object, and try pushing it to MISP.
@@ -235,6 +235,10 @@ def upload_events(misp, local_dir, logger):
                 logger.warning(f"{filename} is not in JSON-MISP format")
                 _wrong_format += 1
                 continue
+
+            if tags:
+                for tag in tags:
+                    event.add_tag(name=tag, local=True)
 
             if event_already_exist(misp, event):
                 if not event_not_updated(misp, event, logger):
@@ -323,7 +327,7 @@ def main():
                 misc_c["local_directory"],
                 logger,
             )
-    upload_events(misp, misc_c["local_directory"], logger)
+    upload_events(misp, misc_c["local_directory"], misp_c["tags"], logger)
 
 
 if __name__ == "__main__":
