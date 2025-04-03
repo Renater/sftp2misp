@@ -236,10 +236,6 @@ def upload_events(misp, local_dir, tags, logger):
                 _wrong_format += 1
                 continue
 
-            if tags:
-                for tag in tags:
-                    event.add_tag(name=tag, local=True)
-
             if event_already_exist(misp, event):
                 if not event_not_updated(misp, event, logger):
                     rep = misp.update_event(event, pythonify=False)
@@ -254,6 +250,10 @@ def upload_events(misp, local_dir, tags, logger):
                     _event_not_updated += 1
                     logger.info(f"Event {file} already existing and not updated")
             else:
+                if tags:
+                    for tag in tags:
+                        event.add_tag(name=tag, local=True)
+
                 try:
                     rep = misp.add_event(event, pythonify=False)
                     if "errors" in rep:
